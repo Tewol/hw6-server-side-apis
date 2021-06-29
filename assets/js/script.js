@@ -9,21 +9,7 @@ var resultTextEl = document.querySelector('#result-text');
 var resultContentEl = document.querySelector('#result-content');
 var searchFormEl = document.querySelector('#search-form');
 
-function getPersonBio(id) {
-  apiUrlgetPersonBio = "https://api.themoviedb.org/3/person/" + id + "?api_key=" + apiKey;
-  fetch(apiUrlgetPersonBio)
-      .then(function (response) {
-          return response.json()
-      })
-      .then(function (data) {
-          //console.log(data);
-          //console.log(data.biography);
-          //alert("Text: " 
-          $("#personBio").text(data.biography);
-          $("#personName").text(data.name);
-
-      })
-}
+//var current = moment().format("MMM Do, YYYY");
 
 function getCityName() {
   fetch(apiUrlCitySearch)
@@ -31,23 +17,29 @@ function getCityName() {
         return response.json()
     })
     .then(function (data) {
+
       $("h4 ").append (data.name)
-      
+      //$("h4").text(current);
       console.log(data)
-      
       //console.log(cityName)
     
+      //const celsius = kelvin - 273;
+      //const fahrenheit = Math.floor(celsius * (9/5) + 32);
       $("#temp").append(data.main.temp)
       //temp = data.main.temp //city temprature 
       console.log(temp)
-
-      $("#wind").append(data.wind.deg)
+    
       $("#wind").append(data.wind.speed)
-      wind = data.wind //wind
+      wind = data.wind.speed //wind
       console.log(wind)
 
-      $("#humidity").append(data.main.humidity)//humidity
+      $("#humidity").append(data.main.humidity) //humidity
       humidity =  data.main.humidity
+      console.log(humidity)
+
+
+      $("#uvIndex").append(data.main.uvIndex) //humidity
+      uvIndex =  data.main.uvIndex
       console.log(humidity)
   
   })
