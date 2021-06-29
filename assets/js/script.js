@@ -9,24 +9,44 @@ var resultTextEl = document.querySelector('#result-text');
 var resultContentEl = document.querySelector('#result-content');
 var searchFormEl = document.querySelector('#search-form');
 
+function getPersonBio(id) {
+  apiUrlgetPersonBio = "https://api.themoviedb.org/3/person/" + id + "?api_key=" + apiKey;
+  fetch(apiUrlgetPersonBio)
+      .then(function (response) {
+          return response.json()
+      })
+      .then(function (data) {
+          //console.log(data);
+          //console.log(data.biography);
+          //alert("Text: " 
+          $("#personBio").text(data.biography);
+          $("#personName").text(data.name);
+
+      })
+}
 
 function getCityName() {
   fetch(apiUrlCitySearch)
-  .then(function (response) {
-      return response.json()
-  })
-  .then(function (data) {
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+      $("h4 ").append (data.name)
+      
       console.log(data)
       
-      cityName = data.name; 
-      console.log(cityName)
-
-      temp = data.main.temp //city temprature 
+      //console.log(cityName)
+    
+      $("#temp").append(data.main.temp)
+      //temp = data.main.temp //city temprature 
       console.log(temp)
 
+      $("#wind").append(data.wind.deg)
+      $("#wind").append(data.wind.speed)
       wind = data.wind //wind
       console.log(wind)
 
+      $("#humidity").append(data.main.humidity)//humidity
       humidity =  data.main.humidity
       console.log(humidity)
   
