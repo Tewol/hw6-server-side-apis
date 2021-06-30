@@ -15,6 +15,10 @@ main {
   box-sizing: border-box;
 }
 
+.h1{
+  font-family: 'Shadows Into Light', cursive;
+}
+
 p {
   font-size: 1.1rem;
   margin: 0 0 1rem;
