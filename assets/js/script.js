@@ -27,14 +27,18 @@ function getCityName() {
     })
     .then(function (data) {
 
-      $("h2").append (data.name).text(current); 
+      console.log(data);
+
+      $("h2").append (data.name); 
     
       //const celsius = kelvin - 273;
       //const fahrenheit = Math.floor(celsius * (9/5) + 32);
       $("#temp").append(data.main.temp)
       $("#wind").append(data.wind.speed)
       $("#humidity").append(data.main.humidity) //humidity
-      $("#uvIndex").append(data.weather[0].icon) //
+      $("#uvIndex").append(data.weather[0].icon) 
+
+      
     
   })
   
@@ -55,6 +59,28 @@ function getFutureWeather() {
       $("#dayThree").append(data.list[2].dt_txt).text (dayThree)
       $("#dayFour").append(data.list[3].dt_txt).text (dayFour)
       $("#dayFive").append(data.list[4].dt_txt).text (dayFive)
+
+      iconOne = data.list[0].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconOne + ".png";
+      $("#dayOneIcon").html("<img src='" + iconUrl  + "'>");
+
+      iconTwo = data.list[1].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconTwo + ".png";
+      $("#dayTwoIcon").html("<img src='" + iconUrl  + "'>");
+
+      iconThree = data.list[2].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconThree + ".png";
+      $("#dayThreeIcon").html("<img src='" + iconUrl  + "'>");
+
+      iconFour = data.list[3].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconFour + ".png";
+      $("#dayFourIcon").html("<img src='" + iconUrl  + "'>");
+
+      iconFive = data.list[4].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconFive + ".png";
+      $("#dayFiveIcon").html("<img src='" + iconUrl  + "'>");
+
+    
       
      
       //Temperature forcast for the next 5 days
@@ -87,7 +113,7 @@ function storeInput() {
   console.log(city);
 }
 
-/*
+
 function searchFormSubmit() {
   //event.preventDefault();
   var searchInputVal = document.querySelector('#search-input').value;
@@ -99,7 +125,7 @@ function searchFormSubmit() {
     console.log(city);
     searchApi(searchInputVal);
 }
-*/
+
 
 
 $("#searchBtn").on("click", storeInput)
