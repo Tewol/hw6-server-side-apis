@@ -22,17 +22,24 @@ function getCityName() {
     })
     .then(function (data) {
 
-      $("h2").append (data.name + ' (' ); 
-      $("h2").append (current + ')' + '&mdash;'); 
+      console.log(data)
+
+      $("h2").append (data.name + ' (' ); //city Name
+      $("h2").append (current + ')' + '&mdash;'); //current date
+
+      icon = data.weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+      $("#icon").html("<img src='" + iconUrl  + "'>");
 
       kelvin = data.main.temp;
       const celsius = kelvin - 273;
       const fahrenheit = Math.floor(celsius * (9/5) + 32);
 
-      $("#temp").append(fahrenheit + '&deg;' + "F") 
-      $("#wind").append(data.wind.speed + " MPH")
-      $("#humidity").append(data.main.humidity + ' &#37;' )
-      $("#uvIndex").append(data.weather[0].icon) 
+      $("#temp").append(fahrenheit + '&deg;' + "F") //current temprature
+      $("#wind").append(data.wind.speed + " MPH") // Wind spead
+      $("#humidity").append(data.main.humidity + ' &#37;' )//current date humidity
+      
+      $("#uvIndex").append(data.weather[0].icon) //current date UV Index
   })
   
 }
