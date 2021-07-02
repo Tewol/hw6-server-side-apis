@@ -21,8 +21,7 @@ function getCityName() {
         return response.json()
     })
     .then(function (data) {
-
-      console.log(data)
+      //console.log(data)
 
       $("h2").append (data.name + ' (' ); //city Name
       $("h2").append (current + ')' + '&mdash;'); //current date
@@ -33,7 +32,7 @@ function getCityName() {
 
       kelvin = data.main.temp;
       const celsius = kelvin - 273;
-      const fahrenheit = Math.floor(celsius * (9/5) + 32);
+      const fahrenheit = (celsius * (9/5) + 32) .toFixed(2) ;
 
       $("#temp").append(fahrenheit + '&deg;' + "F") //current temprature
       $("#wind").append(data.wind.speed + " MPH") // Wind spead
@@ -51,9 +50,8 @@ function getFutureWeather() {
     })
     .then(function (data) {
 
-      console.log(data)
+      //console.log(data)
       
-
       //Future 5 Days 
       $("#dayOne").append(data.list[0].dt_txt).text (dayOne)
       $("#dayTwo").append(data.list[1].dt_txt).text (dayTwo)
@@ -85,38 +83,11 @@ function getFutureWeather() {
 
       
       //Temperature forcast for the next 5 days
-      for (i=0; i<5; i++){
-        kelvin = data.list[i].main.temp
-        
-        var celsius = kelvin - 273;
-        console.log(kelvin);
-
-        var fahrenheit = [Math.floor(celsius * (9/5) + 32)]
-
-        console.log(fahrenheit);
-
-        if (fahrenheit[0]){
-          $("#dayOneTemp").append(fahrenheit[0] + '&deg;' + "F")
-        }
-
-        if (fahrenheit[1]){
-          $("#dayTwoTemp").append(fahrenheit[1] + '&deg;' + "F")
-        }
-
-        if(fahrenheit[2]){
-          $("#dayThreeTemp").append(fahrenheit[2] + '&deg;' + "F")
-        }
-        
-        if(fahrenheit[3]){
-          $("#dayFourTemp").append(fahrenheit[3] + '&deg;' + "F")
-        }
-        
-        if(fahrenheit[4]){
-          $("#dayFiveTemp").append(fahrenheit[4] + '&deg;' + "F")
-        }
-      
-
-      }
+      $("#dayOneTemp").append(((data.list[0].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
+      $("#dayTwoTemp").append(((data.list[1].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
+      $("#dayThreeTemp").append(((data.list[2].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
+      $("#dayFourTemp").append(((data.list[3].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
+      $("#dayFiveTemp").append(((data.list[4].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")   
 
       //Wind forcast for the next 5 days
       $("#dayOneWind").append(data.list[0].wind.speed + " MPH")
@@ -141,7 +112,6 @@ function storeInput() {
   console.log(city);
 
 }
-
 
 $("#searchBtn").on("click", storeInput)
 
