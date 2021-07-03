@@ -6,7 +6,13 @@ var apiUrlCitySearch = "https://api.openweathermap.org/data/2.5/weather?q=" + ci
 var apiFutureForcast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=" + numDays + "&appid=" + apiKey
 
 var current = moment().format("MM/DD/YYYY");
- 
+
+//var lat = data.coord.lat
+//var lon = data.coord.lon
+//var uvURL= "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon
+
+
+
 
 var dayOne = moment().add(1, 'days').format("MM/DD/YYYY");
 var dayTwo = moment().add(2, 'days').format("MM/DD/YYYY");
@@ -14,15 +20,16 @@ var dayThree = moment().add(3, 'days').format("MM/DD/YYYY");
 var dayFour = moment().add(4, 'days').format("MM/DD/YYYY");
 var dayFive = moment().add(5, 'days').format("MM/DD/YYYY");
 
-
 function getCityName() {
+  
   fetch(apiUrlCitySearch)
+    
     .then(function (response) {
         return response.json()
     })
     .then(function (data) {
-      //console.log(data)
-
+      console.log(data)
+      
       $("h2").append (data.name + ' (' ); //city Name
       $("h2").append (current + ')' + '&mdash;'); //current date
 
@@ -38,9 +45,38 @@ function getCityName() {
       $("#wind").append(data.wind.speed + " MPH") // Wind spead
       $("#humidity").append(data.main.humidity + ' &#37;' )//current date humidity
       
-      $("#uvIndex").append(data.weather[0].icon) //current date UV Index
+
+    // AJAX for UV Index:
+      var lat = data.coord.lat;
+      var lon = data.coord.lon;
+      $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon,
+        method: "GET"
+      }).then(function (data) {
+        console.log(data);
+        console.log(data.value);
+        //$(".uvIndex").text("UV Index:" + response.value);
+        $("#uvIndex").append(data.value) //current date UV Index
+        /*
+        if (data.value <= 4){
+            //favourable 
+        }
+
+        else if((data.value > 4 ) && (data.value < 8 )){
+
+          //moderate
+        }
+
+        else{ (data.value >= 8){
+          //sevier
+
+        }*/
+
+
+        
+      });
   })
-  
+   
 }
 
 function getFutureWeather() {
@@ -51,14 +87,12 @@ function getFutureWeather() {
     .then(function (data) {
 
       //console.log(data)
-      
       //Future 5 Days 
       $("#dayOne").append(data.list[0].dt_txt).text (dayOne)
       $("#dayTwo").append(data.list[1].dt_txt).text (dayTwo)
       $("#dayThree").append(data.list[2].dt_txt).text (dayThree)
       $("#dayFour").append(data.list[3].dt_txt).text (dayFour)
       $("#dayFive").append(data.list[4].dt_txt).text (dayFive)
-
 
       //Future 5 Days Icon
       iconOne = data.list[0].weather[0].icon;
@@ -81,7 +115,6 @@ function getFutureWeather() {
       var iconUrl = "http://openweathermap.org/img/w/" + iconFive + ".png";
       $("#dayFiveIcon").html("<img src='" + iconUrl  + "'>");
 
-      
       //Temperature forcast for the next 5 days
       $("#dayOneTemp").append(((data.list[0].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
       $("#dayTwoTemp").append(((data.list[1].main.temp-273.5)*1.8+32).toFixed(2) + '&deg;' + "F")
@@ -103,14 +136,12 @@ function getFutureWeather() {
       $("#dayFourHumidity").append(data.list[3].main.humidity + ' &#37;' )
       $("#dayFiveHumidity").append(data.list[4].main.humidity + ' &#37;' )
   })
-  
 }
 
 function storeInput() {
   city = $("#search-input").val();
   localStorage.setItem("search", city);
   console.log(city);
-
 }
 
 $("#searchBtn").on("click", storeInput)
